@@ -22,8 +22,9 @@ ThinkPHP is a free open source light PHP framework. It is quick, simple, and obj
 
 ## ThinkPHP Global Functions
 
-C()  
-	get or set value in <$MODULE>/Conf/config.php file; the set feature only temporarily set the value, and it won’t overwrite the setting in config.php file.
+- C()  
+
+  get or set value in <$MODULE>/Conf/config.php file; the set feature only temporarily set the value, and it won’t overwrite the setting in config.php file.
 
 ```	
 # eg. some config in config.php file
@@ -39,16 +40,16 @@ C(‘SITE_TITLE’, ‘BlueJay 2’);
 echo C(‘SITE_TILTE’); // BlueJay2
 ```
 
-E()**  
+- E()**  
 	Exception handling
 
-G()**  
+- G()**  
 	Monitoring the time consuming during the procedure.
 
-L()**  
+- L()**  
 	i18n support
 
-I()  
+- I()  
 	read variables from path
 
 ```
@@ -58,49 +59,49 @@ I('get.name'); // return $_GET[‘name’];
 I(‘path.0’); // get path phrase
 ```
 
-N()**  
+- N()\*\*  
 	database read write statistic, eg. N(‘read’);
 
-D()  
+- D()  
 	create an instance of Model with customized model under Model folder; if there is no customized Model, the systematically Model will return.
 
-M()  
+- M()  
 	create an instance of Model automatically, without customized model.
 
-A()  
+- A()  
 	create an instance of controller, eg. A(‘Access’)->index();
 
-R()  
+- R()  
 	run a function directly, eg. R(‘Access/index’);
 
-B()**  
+- B()\*\*  
 	run a behavior logic. eg. B(‘CheckAuth’)
 
-redirect()  
+- redirect()  
 	change path to other URL
 
-S()  
+- S()  
 	cache management, using File as cache by default.
 
-F()  
+- F()  
 	file management
 
-xml_encode(), data_to_xml()  
+- xml_encode(), data_to_xml()  
 	convert mixed data to xml string
 	
-session()  
+- session()  
 	working with session.
 
-cookie()  
+- cookie()  
 	working with cookie
 
-get_client_ip();  
+- get_client_ip();  
 	retrieve visitor’s IP
 
-send_http_status();  
+- send_http_status();  
 	eg. send_http_status(404); // not found
 
-in_array_case()  
+- in_array_case()  
 	case insensitive in_array() function.
 
 \*\* those functions are not commonly used.
@@ -120,25 +121,25 @@ $User->data($data)->add();
 ```
 
 ### Read
-where($array)  
-	query result filtered by where  
-	eg. D(‘User’)->where(array(‘userId’=> ‘1’));
+- where($array)  
+    query result filtered by where  
+    eg. D(‘User’)->where(array(‘userId’=> ‘1’));
 
-table($databaseTableName)  
-	by default, ThinkPHP would use lowercase table name only,   
-	eg D(‘User’) would look for table ‘user’.   
-If we want to have case sensitive, we must use D()->table(‘User’)  
+- table($databaseTableName)  
+    by default, ThinkPHP would use lowercase table name only,   
+    eg D(‘User’) would look for table ‘user’.   
+    If we want to have case sensitive, we must use D()->table(‘User’)  
 
-field($columnName)  
-	eg. $Model->field('id,title,content')->select();  
+- field($columnName)  
+    eg. $Model->field('id,title,content')->select();  
 	
-order($orderArray)  
-	eg. $Model->where('status=1')->order('id desc')->limit(5)->select();  
+- order($orderArray)  
+    eg. $Model->where('status=1')->order('id desc')->limit(5)->select();  
 
-fetchSql  
-	return only SQL string without running.  
-	eg. $result = M('User')->fetchSql(true)->find(1);  
-	return: SELECT * FROM think_user where id = 1  
+- fetchSql  
+    return only SQL string without running.  
+    eg. $result = M('User')->fetchSql(true)->find(1);  
+    return: SELECT * FROM think_user where id = 1  
 
 ## Commonly Development Cases
 
