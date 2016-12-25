@@ -58,5 +58,4 @@ eg. http://localhost/tp5/public/
 
 The browser should return a page similar like:
 
-![ThinkPHP 5 Install Successful](http://box.kancloud.cn/2016-03-11_56e274a2376df.png)
-
+![ThinkPHP 5 Installation](http://box.kancloud.cn/2016-03-11_56e274a2376df.png)
