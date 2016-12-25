@@ -58,4 +58,4 @@ eg. http://localhost/tp5/public/
 
 The browser should return a page similar like:
 
-![ThinkPHP 5 Installation](http://box.kancloud.cn/2016-03-11_56e274a2376df.png)
+![ThinkPHP 5 Installation](https://camo.githubusercontent.com/64cd85167fc67526ec9ea7fd14b2d01982d61c79/687474703a2f2f626f782e6b616e636c6f75642e636e2f323031362d30332d31315f353665323734613233373664662e706e67)
