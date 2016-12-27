@@ -63,6 +63,7 @@ I('server.REQUEST_METHOD'); // 获取 $_SERVER['REQUEST_METHOD']
 echo I('path.1'); // 输出2013
 echo I('path.2'); // 输出06
 echo I('path.3'); // 输出01
+```
 
 ## 9. Request Type Detect
 > IS_GET	判断是否是GET方式提交
@@ -152,6 +153,6 @@ Output:
 当前城市:shanghai
 当前城市:shenzhen
 */
-
+```
 ## 12. Plugin Controller
 ## 13. Action Bind Class
