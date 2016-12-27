@@ -1,0 +1,4 @@
+- PHP 5.3
+- Windows, Unix and Linux
+- Apache, IIS and nginx
+- MySQL、MSSQL、PgSQL、Sqlite、Oracle、Ibase and MongoDB
