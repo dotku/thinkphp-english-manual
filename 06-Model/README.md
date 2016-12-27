@@ -78,7 +78,7 @@ $User->select();
 ## 6. Distribute Deploy
 
 ## 7. Link Operation
-- where*	used for condition query
+- where\*	used for condition query
 
 ```
 $User = M("User"); // 实例化User对象
@@ -110,7 +110,7 @@ $Model = M('User');
 $data['name'] = '流年';
 $data['email'] = 'thinkphp@qq.com';
 $Model->data($data)->add(); // add row to database
-``
+```
 
 - field
 ```
@@ -148,7 +148,7 @@ $this->field('username,max(score)')->group('user_id')->having('count(test_time)>
 // SELECT username,max(score) FROM think_score GROUP BY user_id HAVING count(test_time)>3
 ```
 
-- join*	
+- join\*	
 ```
 $Model = M('Artist');
 $Model
@@ -157,7 +157,7 @@ $Model
 ->select();
 ```
 
-- union*
+- union\*
 ```
 $Model->field('name')
       ->table('think_user_0')
@@ -212,23 +212,34 @@ $this->comment('查询考试前十名分数')
 $result = M('User')->fetchSql(true)->find(1);
 // SELECT * FROM think_user where id = 1
 ```
+
 - token
 ```
 $model->token(false)->create();
 // turn off token varify
 ```
-- validate	用于数据自动验证	数组
-auto	用于数据自动完成	数组
-filter	用于数据过滤	字符串
-scope*	用于命名范围	字符串、数组
-bind*	用于数据绑定操作	数组或多个参数
-token	用于令牌验证	布尔值
-comment	用于SQL注释	字符串
+
+- validate
+(unkown)
+
+- auto
+(unkown)
+
+- filter
+(unkown)
+
+- scope\*
+(unkown)
+
+- bind\*	
+(unkown)
+
 - index	
 ```
 $Model->index('user')->select();
 // index 'user' by force
 ```
+
 - strict	
 ```
 // varify if fields are exist; otherwise, would throw error
