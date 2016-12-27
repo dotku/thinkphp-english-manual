@@ -1,0 +1,24 @@
+```
+# Module Layer Design Example
+
+Application      默认应用目录（可以设置）
+├─Common         公共模块（不能直接访问）
+├─Home           前台模块
+├─Admin          后台模块
+├─...            其他更多模块
+├─Runtime        默认运行时目录（可以设置）
+```
+
+```
+# Module Design Example
+
+├─Module         模块目录
+│  ├─Conf        配置文件目录
+│  ├─Common      公共函数目录
+│  ├─Controller  控制器目录
+│  ├─Model       模型目录
+│  ├─Logic       逻辑目录（可选）
+│  ├─Service     Service目录（可选）
+│  ... 更多分层目录可选
+│  └─View        视图目录
+```
