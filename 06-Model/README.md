@@ -245,6 +245,162 @@ $Model->index('user')->select();
 // varify if fields are exist; otherwise, would throw error
 $model->strict(true)->add($data);
 ```
-
 (*) Could be used multiple times in one query
+
+## 8. Naming Scope
+```
+# File Model
+namespace Home\Model;
+use Think\Model;
+class NewsModel extends Model {
+     protected $_scope = array(
+         // 命名范围normal
+         'normal'=>array(
+             'where'=>array('status'=>1),
+         ),
+         // 命名范围latest
+         'latest'=>array(
+             'order'=>'create_time DESC',
+             'limit'=>10,
+         ),
+     );
+}
+
+# File Controller
+$Model = D('News'); // 这里必须使用D方法 因为命名范围在模型里面定义
+$Model->scope('normal')->select();
+$Model->scope('latest')->select();
+```
+
+## 9. CRUD
+```
+# Create (Write)
+$data['name'] = $_POST['name'];
+$data['email'] = $_POST['email'];
+
+if($User->create($data)){
+    $result = $User->add(); // 写入数据到数据库 
+    if($result){
+        // 如果主键是自动增长型 成功后返回值就是最新插入的值
+        $insertId = $result;
+    }
+}
+
+# Read
+$User = M("User");
+$data = $User->where('status=1 AND name="thinkphp"')->find();
+
+# Update
+$User = M("User"); 
+$data['name'] = 'ThinkPHP';
+$data['email'] = 'ThinkPHP@gmail.com';
+$User->where('id=5')->save($data); 
+
+# Delete
+$User = M("User");
+$User->where('id=5')->delete();
+$User->delete('1,2,5'); 
+$User->where('status=0')->delete(); 
+```
+## 10. Active Record
+## 11. Field Pointer
+## 12. Query Search
+### Query Basic
+```
+$User = M("User"); // 实例化User对象
+$User->where('type=1 AND status=1')->select(); 
+```
+### Query Express
+> EQ	equal
+> NEQ	not equal
+> GT	greater
+> EGT	equal or greater
+> LT	less than
+> ELT	equal or less than
+> LIKE		
+> [NOT] BETWEEN	
+> [NOT] IN
+> EXP	Express
+
+```
+$map['id']  = array('egt',100);
+$map['name'] = array('like','thinkphp%');
+$map['b'] =array('notlike',array('%thinkphp%','%tp'),'AND');
+$map['id']  = array('exp',' IN (1,3,8) ');
+...
+
+$model->where($map)->select();
+```
+
+### Quick Query
+```
+$User = M("User");
+$map['name|title'] = 'thinkphp';
+$User->where($map)->select(); 
+```
+
+### Range Query
+```
+$map['id'] = array(array('gt',1),array('lt',10)) ; // ( id > 1) AND ( id < 10)
+$map['id'] = array(array('gt',3),array('lt',10), 'or') ; // ( id > 3) OR ( id < 10)
+$map['id']  = array(array('neq',6),array('gt',3),'and'); // ( id != 6) AND ( id > 3)
+```
+
+### Combo Query
+```
+$User = M("User"); // 实例化User对象
+$map['id'] = array('neq',1);
+$map['name'] = 'ok';
+$map['_string'] = 'status=1 AND score>10';
+$User->where($map)->select(); 
+// ( `id` != 1 ) AND ( `name` = 'ok' ) AND ( status=1 AND score>10 )
+```
+
+### Static Query
+```
+$User = M("User");
+$userCount = $User->count("id");
+$maxScore = $User->max('score');
+$minScore = $User->where('score>0')->min('score');
+$avgScore = $User->avg('score');
+$sumScore = $User->sum('score');
+```
+
+### SQL Query
+```
+$Model = new \Think\Model();
+$Model->query("select * from think_user where status=1"); // read only
+$Model->execute("update __PREFIX__user set name='thinkPHP' where status=1"); // write or update
+```
+
+### Dynamical Query
+```
+$user = $User->getByName('liu21st');
+$user = $User->getByEmail('liu21st@gmail.com');
+$userId = $User->getFieldByName('liu21st','id');
+```
+
+### Subquery
+```
+$subQuery = $model->field('id,name')->table('tablename')->group('field')->where($where)->order('status')->select(false); 
+// returns SQL string
+```
+
+## 13. Auto Verify
+## 14. Auto Complete
+## 15. Param Bind
+## 16. Virtual Model
+```
+// Virtual Model is not real Model, it won't connect with database
+namespace Home\Model;
+Class UserModel extends \Think\Model {
+     Protected $autoCheckFields = false;
+}
+```
+
+## 17. Model Layers
+## 18. View Model
+## 19. Relationship Model
+## 20. Advanced Model
+## 21. MeogoDB Model
 
