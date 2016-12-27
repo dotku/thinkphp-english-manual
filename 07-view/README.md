@@ -37,3 +37,14 @@ T('Admin@Public/menu');
 T('Extend://Admin@Public/menu');
 // Extend/Admin/View/Public/menu.html
 ```
+### 5. Get Content
+```
+// only getting content without display
+$content = $this->fetch('Member:edit');
+```
+
+### 6. Template Engine
+```
+# File: config.php
+'TMPL_ENGINE_TYPE' =>'PHP'
+```
