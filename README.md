@@ -21,4 +21,4 @@ ThinkPHP 5.0 is a reconstructed project. It leverages the modern PHP features, i
 
 ### License
 
-	Apache 2.0
+Apache 2.0

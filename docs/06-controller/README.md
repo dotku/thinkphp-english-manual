@@ -1,1 +1,1 @@
-README
+ThinkPHP V5.0的控制器定义比较灵活，可以无需继承任何的基础类，也可以继承官方封装的\think\Controller类或者其他的控制器类。

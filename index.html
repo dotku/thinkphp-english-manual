@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ThinkPHP 5.0 Guide</title>
+    <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="libs/dpatch/dist/css/general-cn.css" rel="stylesheet"/>
+    <script src="libs/angular/angular.js"></script>
+    
+    <script src="libs/jquery/dist/jquery.min.js"></script>
+    <script src="libs/showdown/compressed/Showdown.min.js"></script>
+    <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="libs/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="libs/angular-markdown-directive/markdown.js"></script>
+
+  </head>
+  <body ng-app="app" ng-controller="ctrl">
+    <div style="background-color: #5E9C2F; color: white">
+    <div class="container">
+      <h1>ThinkPHP 5.0 Guide</h1>
+    </div>
+    </div>
+    <div class="container">
+      <div class="col-sm-3" ng-include="'assets/components/menu.comp.html'">
+      </div>
+      <div btf-markdown class="col-sm-9"
+        ng-include="currentPage"
+      ></div>
+    </div>
+    <footer class="container">
+      <div>&copy; 2017 THINKPHP</div>
+      <div><a href="https://github.com/dotku/thinkphp-guide">FORK THIS DOCUMENT</a></div>
+    </footer>
+    <script>
+    
+      var app = angular.module("app", ['ngSanitize', 'btford.markdown']);
+      app.controller('ctrl', function($scope){
+        $scope.currentPage = "docs/00-preface/README.md";
+        $scope.updateCurrentPage = function(url) {
+          $scope.currentPage = url;
+        }
+      });
+    
+    </script>
+  </body>
+</html>

@@ -1,1 +1,1 @@
-README.md
+路由功能由\think\Route类完成。
