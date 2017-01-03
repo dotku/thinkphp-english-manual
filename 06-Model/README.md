@@ -400,6 +400,20 @@ Class UserModel extends \Think\Model {
 
 ## 17. Model Layers
 ## 18. View Model
+```
+# File: App\Home\Model\BlogViewModel.class.php
+# Create A View Model
+namespace Home\Model;
+use Think\Model\ViewModel;
+class BlogViewModel extends ViewModel {
+   public $viewFields = array(
+     'Blog'=>array('id','name','title'),
+     'Category'=>array('title'=>'category_name', '_on'=>'Blog.category_id=Category.id'),
+     'User'=>array('name'=>'username', '_on'=>'Blog.user_id=User.id'),
+   );
+ }
+```
+
 ## 19. Relationship Model
 ## 20. Advanced Model
 ## 21. MeogoDB Model
