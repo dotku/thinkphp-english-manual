@@ -9,8 +9,9 @@ class UserModel extends Model {
 ### Properties
 There are four properties you can sepcify in Model Defination:
 
-1. tablePrefix
-```
+1. tablePrefix  
+
+    ```
 # eg, you want to have top_category
 namespace Home\Model;
 use Think\Model;
@@ -19,10 +20,10 @@ class CategoryModel extends Model {
 }
 ```
 
-2. tableName
-If you use a table name which is different from the Model name.
+2. tableName  
+  If you use a table name which is different from the Model name.
 
-```
+  ```
 namespace Home\Model;
 use Think\Model;
 class CategoryModel extends Model {
@@ -30,9 +31,9 @@ class CategoryModel extends Model {
 }
 ```
 
-3. trueTableName
-By default, ThinkPHP use underscore format for table, if you are using tables not follow the convention, you must could specify the table name with trueTableName.
-```
+3. trueTableName  
+  By default, ThinkPHP use underscore format for table, if you are using tables not follow the convention, you must could specify the table name with trueTableName.
+  ```
 namespace Home\Model;
 use Think\Model;
 class CategoryModel extends Model {
@@ -40,9 +41,9 @@ class CategoryModel extends Model {
 }
 ```
 
-4. dbName
-If you want to use table accross different Database.
-```
+4. dbName  
+  If you want to use table accross different Database.
+  ```
 namespace Home\Model;
 use Think\Model;
 class CategoryModel extends Model {
