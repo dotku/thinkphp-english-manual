@@ -893,5 +893,76 @@ protected $partition = array(
  );
 ```
 
-## 21. MeogoDB Model
+## 21. MongoDB Model
 
+MongoDB is non-relational database (NoSQL), ThinkPHP also support MongoDB Query.
+
+### Key
+```
+namespace Home\Model;
+use Think\Model\MongoModel;
+Class UserModel extends MongoModel {
+     Protected $_idType = self::TYPE_INT;
+     protected $_autoinc =  true;
+}
+```
+### fields auto check
+```
+Protected $autoCheckFields = true;
+```
+
+### Linked Operations
+```
+$Model = new Think\Model\MongoModel("User");
+$Model->field("name,email,age")->order("status desc")->limit("10,8")->select();
+```
+
+### Query Operations
+```
+// FORMAT: $map['field'] = array('express','condition');
+// eg. $map['name'] = array('like','^thinkphp');
+```
+| ThinkPHP Express | MongoDB Original |
+| --- | --- |
+|neq | $ne |
+|lt | $lt |
+|lte | $lte |
+|gt | $gt |
+|gte | $gte |
+|like | --- |
+|mod | $mod |
+|in | $in |
+|nin / not | $nin |
+|all | $all
+|between | --- |
+|not between| --- |
+|exists | $exists |
+|size | $size |
+|type | $type |
+|regex | MongoRegex |
+|exp | --- |
+
+CRUD for MongoDB
+
+```
+$data['id'] = 5;
+$data['score'] = array('inc',2);
+$Model->save($data);
+```
+| ThinkPHP Express | Mongo |
+| --- | --- |
+| inc | $inc |
+| set | $set |
+| unset | $unset |
+| push | $push |
+| pushall | $pushall |
+| addtoset | $addtoset |
+| pop | $pop |
+| pull | $pull |
+| pullall | $pullall |
+
+### Other
+
+mongoCode(), run MongoCode
+getMongoNextId(), get next auto increased key
+clear(), clean current database table
