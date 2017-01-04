@@ -112,15 +112,151 @@ $User = M('User');
 // other dta operations
 $User->select();
 ```
-** M function won't load Model define, which would have better performance; however, D function could used for Model redefine.
+
+> M function won't load Model define, which would have better performance; however, D function could used for Model redefine.
 
 ## 3. Field Define
+System will cache the filed data in the first time of instanlization step, and save it under `Runtime/Data/_fields` forever by using followind format:
+
+```
+demo.user.php // User Model created fields
+demo.article.php
+```
+
+If your data structure changes a lot, you don't want to turn off the cache feature, you can config it by:
+
+```
+'DB_FIELDS_CACHE'=>false
+```
+
+Or you can clean the cache by manual by delete files under `Data/_fields`.
+
+If you want to improve the performance of the system without cache feature, you could create a Model manually:
+
+```
+namespace Home\Model;
+use Think\Model;
+class UserModel extends Model {
+    protected $fields = array('id', 'username', 'email', 'age');
+    protected $pk     = 'id'; // primary key
+}
+```
+
+> 3.2.3+ support combin key
+```
+namespace Home\Model;
+use Think\Model;
+class ScoreModel extends Model {
+    protected $fields = array('user_id', 'lession_id','score');
+    protected $pk     = array('user_id','lession_id');
+}
+```
+
+You can also define the filed type
+
+```
+namespace Home\Model;
+use Think\Model;
+class UserModel extends Model {
+    protected $fields = array('id', 'username', 'email', 'age',
+        '_type'=>array('id'=>'bigint','username'=>'varchar','email'=>'varchar','age'=>'int')
+    );
+}
+```
 
 ## 4. Database Connect
 
+1. Global Define by using config.php file
+
+  ```
+'DB_TYPE'   => 'mysql', 
+'DB_HOST'   => 'localhost', 
+'DB_NAME'   => 'thinkphp', 
+'DB_USER'   => 'root', 
+'DB_PWD'    => '123456', 
+'DB_PORT'   => 3306, 
+'DB_PREFIX' => 'think_', 
+'DB_CHARSET'=> 'utf8', 
+'DB_DEBUG'  =>  TRUE,
+```
+
+2. Define in Model Define
+
+  ```
+  namespace Home\Model;
+use Think\Model;
+class UserModel extends Model{
+    protected $connection = array(
+        'db_type'  => 'mysql',
+        'db_user'  => 'root',
+        'db_pwd'   => '1234',
+        'db_host'  => 'localhost',
+        'db_port'  => '3306',
+        'db_name'  => 'thinkphp',
+        'db_charset' =>    'utf8',
+    );
+}
+```
+  ```
+  
+namespace Home\Model;
+use Think\Model;
+class UserModel extends Model{
+    // by connection
+    protected $connection = 'mysql://root:1234@localhost:3306/thinkphp#utf8';
+}
+```
+
+3. in instance step
+
+  ```
+  $User = M('User','other_','mysql://root:1234@localhost/demo#utf8');
+```
+
 ## 5. Switch Database
 
+  For instance, you define the database connection in config.php file:
+
+  ```
+'DB_CONFIG1' = array(
+    'db_type'  => 'mysql',
+    'db_user'  => 'root',
+    'db_pwd'   => '1234',
+    'db_host'  => 'localhost',
+    'db_port'  => '3306',
+    'db_name'  => 'thinkphp'
+),
+'DB_CONFIG2' => 'mysql://root:1234@localhost:3306/thinkphp';
+```
+
+  You can switch by:
+
+  ```
+$this->db(1,"DB_CONFIG1")->query("查询SQL");
+$this->db(2,"DB_CONFIG2")->query("查询SQL");
+```
+
+  Or simply by
+  
+  ```
+  $this->db(1,"mysql://root:123456@localhost:3306/test")->query("查询SQL");
+  ```
+
 ## 6. Distribute Deploy
+
+Under config.php file, and specify
+
+```
+'DB_DEPLOY_TYPE'=> 1, // Enable distribute dataabase deploy
+'DB_TYPE'       => 'mysql', // must use same database type
+'DB_HOST'       => '192.168.0.1,192.168.0.2',
+'DB_NAME'       => 'thinkphp', // could define multiple db names
+'DB_USER'       => 'user1,user2',
+'DB_PWD'        => 'pwd1,pwd2',
+'DB_PORT'       => '3306',
+'DB_PREFIX'     => 'think_',
+'DB_RW_SEPARATE'=>true, // (optional) sperate write and read; otherwise, will read/write to both database machine
+```
 
 ## 7. Link Operation
 - where\*	used for condition query
@@ -348,7 +484,49 @@ $User->delete('1,2,5');
 $User->where('status=0')->delete(); 
 ```
 ## 10. Active Record
+By Active Record, you can query and operate the model object easier:
+
+```
+$User = M("User"); 
+
+// Tranditional
+$User->where('id=8')->find();
+
+// AR Mode
+$User->find(8);
+$userList = $User->select('1,3,8'); 
+
+// Update
+$User->find(1); 
+$User->name = 'TOPThink'; 
+$User->save(); 
+
+$User->id = 1;
+$User->name = 'TOPThink'; 
+$User->save(); 
+
+// Delete
+$User->find(2);
+$User->delete(); 
+
+$User->delete(8); 
+$User->delete('5,6'); 
+```
+
 ## 11. Field Pointer
+You can point the field to different column in database:
+
+```
+namespace Home\Model;
+use Think\Model;
+Class UserModel extends Model{
+     protected $_map = array(
+         'name' =>'username', 
+         'mail'  =>'email', 
+     );
+}
+```
+
 ## 12. Query Search
 ### Query Basic
 ```
@@ -432,8 +610,74 @@ $subQuery = $model->field('id,name')->table('tablename')->group('field')->where(
 ```
 
 ## 13. Auto Verify
+### Static Define
+
+In model class
+
+```
+namespace Home\Model;
+use Think\Model;
+class UserModel extends Model{
+   protected $_validate = array(
+     array('verify','require','require verify code！'), 
+     array('name','','account name is already exist！',0,'unique',1), 
+     array('value',array(1,2,3),'range is not correct！',2,'in'), 
+     array('repassword','password','password doesn\'t match',0,'confirm'), 
+     array('password','checkPwd','password format is incorrect',0,'function'), 
+   );
+}
+```
+
+In controller
+
+```
+$rules = array(
+     array('verify','require','require verify code！'), 
+     array('name','','account name is already exist！',0,'unique',1), 
+     array('value',array(1,2,3),'range is not correct！',2,'in'), 
+     array('repassword','password','password doesn\'t match',0,'confirm'), 
+     array('password','checkPwd','password format is incorrect',0,'function'), 
+);
+$User = M("User"); 
+if (!$User->validate($rules)->create()){
+     exit($User->getError());
+}else{
+     // do something ...
+}
+```
 ## 14. Auto Complete
+
+```
+namespace Home\Model;
+use Think\Model;
+class UserModel extends Model{
+     protected $_auto = array ( 
+         array('status','1'),  // set status = 1 in add
+         array('password','md5',3,'function') , // md5 the password
+         array('name','getName',3,'callback'), 
+         array('update_time','time',2,'function'),
+     );
+}
+```
+
 ## 15. Param Bind
+```
+# We do this
+$Model = M('User');
+$Model->name = 'thinkphp';
+$Model->email = 'thinkphp@qq.com';
+$Model->add();
+
+# Actually, the system help us do this
+
+$Model = M('User');
+$Model->name = ':name';
+$Model->email = ':email';
+$bind[':name']    = 'thinkphp';
+$bind[':email']   = 'thinkphp@qq.com';
+$Model->bind($bind)->add();
+```
+
 ## 16. Virtual Model
 ```
 // Virtual Model is not real Model, it won't connect with database
@@ -444,6 +688,22 @@ Class UserModel extends \Think\Model {
 ```
 
 ## 17. Model Layers
+
+- Home\Model\UserModel
+- Home\Logic\UserLogic
+- Home\Service\UserService 
+
+```
+#eg. define a logic
+
+namespace Home\Logic;
+class UserLogic extends \Think\Model{
+}
+```
+
+Instanlized in Controller: `D("User", "Logic")`
+
+
 ## 18. View Model
 
 ```
@@ -468,6 +728,170 @@ Extral function for View Model array:
 - `_type`, is for JOIN type, eg `'_type'=>'LEFT'`
 
 ## 19. Relationship Model
+
+There are 3 types for relations:
+
+- HAS_ONE
+- BLONGS_TO
+- HAS_MANY
+- MANY_TO_MANY
+
+```
+namespace Home\Model;
+use Think\Model\RelationModel;
+class UserModel extends RelationModel{
+    protected $_link = array(
+        'Profile'=>array(
+            'mapping_type'      => self::HAS_ONE,
+            'class_name'        => 'Profile',
+            ……
+            ),
+        );
+}
+```
+
+> Properties for HAS_ONE
+- class_name: related model name
+- mapping_name: it would use model_name if not defined
+- foreign_key
+- condition
+- mapping_fields
+- as_fields
+
+> Properties for BELONGS_TO
+- class_name: related model name
+- mapping_name: it would use model_name if not defined
+- foreign_key
+- condition
+- parent_key
+- as_fields
+
+> Properties for HAS_MANY
+- class_name: related model name
+- mapping_name: it would use model_name if not defined
+- foreign_key
+- parent_key
+- condition
+- mapping_fields
+- mapping_limit
+- mapping_order
+
+> Properties for MANY_TO_MANY
+- class_name
+- mapping_name
+- foreign_key
+- relation_foreign_key
+- mapping_limit
+- mapping_order
+- relation_table
+
+### CRUD with Relation Model
+
+```
+$User = D("User");
+$user = $User->relation(true)->find(1);
+
+// OUTPUT
+array(
+    'id'        => 1,
+    'account'   => 'ThinkPHP',
+    'password'  => '123456',
+    'Profile'   => array(
+        'email'     => 'liu21st@gmail.com',
+        'nickname'  => '流年',
+        ),
+    )
+
+// OUTPUT for define as_fields
+array(
+    'id'        => 1,
+    'account'   => 'ThinkPHP',
+    'password'  => 'name',
+    'email'     => 'liu21st@gmail.com',
+    'nickname'  => '流年',
+    )
+```
+
+```
+// Write
+
+$User = D("User");
+$data = array();
+$data["account"]    = "ThinkPHP";
+$data["password"]   = "123456";
+$data["Profile"]    = array(
+  'email'    =>'liu21st@gmail.com',
+  'nickname'    =>'流年',
+);
+$result = $User->relation(true)->add($data);
+
+// Update
+
+$User = D("User");
+$data["account"]    = "ThinkPHP";
+$data["password"]   = "123456";
+$data["Profile"]    = array(
+     'email'    =>'liu21st@gmail.com',
+     'nickname'    =>'流年',
+);
+$result = $User-> relation(true)->where(array('id'=>3))->save($data);
+
+// Delete
+// Delete all
+$result = $User->relation(true)->delete("3");
+// Delete only Profile
+$result = $User->relation("Profile")->delete("3");
+```
+
 ## 20. Advanced Model
+```
+namespace Home\Model;
+use Think\Model\AdvModel;
+class UserModel extends AdvModel{
+    protected $_filter = array(
+        'content'=>array('contentWriteFilter','contentReadFilter'),
+    );
+    protected $serializeField = array(
+        'info' => array('name', 'email', 'address'),
+    );
+    Protected  $blobFields = array('content');
+    protected $readonlyField = array('name', 'email');
+    
+}
+```
+
+###  Pessimistic Locking and Optimistic Locking 
+```
+// Pessimistic Locking
+$User->lock(true)->save($data);
+```
+For Optimistic Locking, just create a field "lock_version" under a table, and make it true by default.
+
+### Lazy Update
+
+```
+$User = D("User"); 
+$User->where('id=3')->setInc("score",10);
+$User->where('id=3')->setInc("score",30);
+
+// in lazy mode
+User->where('id=3')->setLazyInc("score",10,60);
+$User->where('id=3')->setLazyInc("score",30,60);
+$User->where('id=3')->setLazyInc("score",10,60);
+```
+
+### Data Table Devide Query
+
+For huge data query, might need Data Table Devide Query
+
+```
+protected $partition = array(
+ 'field' => 'name',
+ 'type' => 'md5',
+ 'expr' => 'name',
+ 'num' => 'name',
+ );
+```
+
 ## 21. MeogoDB Model
 
