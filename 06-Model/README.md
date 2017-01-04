@@ -73,15 +73,15 @@ $connection = array(
     'db_name'    =>    'demo', 
     'db_charset' =>    'utf8',
     'db_deploy_type'=>    1,
-    'db_rw_separate'=>    true,
-    'db_debug'    =>    true,
+    'db_rw_separate'=>    true, // write read seperate
+    'db_debug'    =>    true, // enable debug
 );
-// 分布式数据库部署 并且采用读写分离 开启数据库调试模式
+// Distribute Database Deploy, seperate write and read, and enable debug mode
 new \Home\Model\NewModel('new','think_',$connection);
 
 // by config define
 
-//数据库配置1
+// Database Config 1
 'DB_CONFIG1' => array(
      'db_type'  => 'mysql',
      'db_user'  => 'root',
@@ -90,7 +90,7 @@ new \Home\Model\NewModel('new','think_',$connection);
      'db_port'  => '3306',
      'db_name'  => 'thinkphp'
 ),
-//数据库配置2
+// Database Config 2
 'DB_CONFIG2' => 'mysql://root:1234@localhost:3306/thinkphp',
 
 new \Home\Model\NewModel('new','think_','DB_CONFIG1');
@@ -102,15 +102,14 @@ new \Home\Model\BlogModel('blog','think_','DB_CONFIG2');
 
 // create instance by D Function
 $User = D('User');
-// 相当于 $User = new \Home\Model\UserModel();
-// 执行具体的数据操作
+// equal to $User = new \Home\Model\UserModel();
+// run data operations
 $User->select();
 
 // create instance by M function
-// 使用M方法实例化
 $User = M('User');
-// 和用法 $User = new \Think\Model('User'); 等效
-// 执行其他的数据操作
+// equal to $User = new \Think\Model('User');
+// other dta operations
 $User->select();
 ```
 ** M function won't load Model define, which would have better performance; however, D function could used for Model redefine.
@@ -127,13 +126,13 @@ $User->select();
 - where\*	used for condition query
 
 ```
-$User = M("User"); // 实例化User对象
+$User = M("User"); // create User Instance Object
 $User->where('type=1 AND status=1')->select(); 
 
-$User = M("User"); // 实例化User对象
+$User = M("User"); // create User Instance Object
 $map['name'] = 'thinkphp';
 $map['status'] = 1;
-// 把查询条件传入查询方法
+// pass query condition
 $User->where($map)->select(); 
 ```
 
@@ -153,7 +152,7 @@ $Model->alias('a')->join('__DEPT__ b ON b.user_id= a.id')->select();
 - data
 ```
 $Model = M('User');
-$data['name'] = '流年';
+$data['name'] = 'liu';
 $data['email'] = 'thinkphp@qq.com';
 $Model->data($data)->add(); // add row to database
 ```
@@ -235,13 +234,13 @@ $data = S('key');
 
 - comment
 ```
-$this->comment('查询考试前十名分数')
+$this->comment('query top 10 score')
 ->field('username,score')
 ->limit(10)
 ->order('score desc')
 ->select();
 
-// SELECT username,score FROM think_score ORDER BY score desc LIMIT 10 /* 查询考试前十名分数 */
+// SELECT username,score FROM think_score ORDER BY score desc LIMIT 10 /* query top 10 score */
 ```
 
 - relation
@@ -300,11 +299,11 @@ namespace Home\Model;
 use Think\Model;
 class NewsModel extends Model {
      protected $_scope = array(
-         // 命名范围normal
+         // name scope normal
          'normal'=>array(
              'where'=>array('status'=>1),
          ),
-         // 命名范围latest
+         // name scope latest
          'latest'=>array(
              'order'=>'create_time DESC',
              'limit'=>10,
@@ -313,7 +312,7 @@ class NewsModel extends Model {
 }
 
 # File Controller
-$Model = D('News'); // 这里必须使用D方法 因为命名范围在模型里面定义
+$Model = D('News'); // It must use D function, since scope is defined in Model
 $Model->scope('normal')->select();
 $Model->scope('latest')->select();
 ```
@@ -325,9 +324,9 @@ $data['name'] = $_POST['name'];
 $data['email'] = $_POST['email'];
 
 if($User->create($data)){
-    $result = $User->add(); // 写入数据到数据库 
+    $result = $User->add(); // write to database
     if($result){
-        // 如果主键是自动增长型 成功后返回值就是最新插入的值
+        // if primary key is increated automatically, return the least key
         $insertId = $result;
     }
 }
@@ -353,7 +352,7 @@ $User->where('status=0')->delete();
 ## 12. Query Search
 ### Query Basic
 ```
-$User = M("User"); // 实例化User对象
+$User = M("User"); // instanlized User Object
 $User->where('type=1 AND status=1')->select(); 
 ```
 ### Query Express
@@ -394,7 +393,7 @@ $map['id']  = array(array('neq',6),array('gt',3),'and'); // ( id != 6) AND ( id 
 
 ### Combo Query
 ```
-$User = M("User"); // 实例化User对象
+$User = M("User"); // instanlized User Object
 $map['id'] = array('neq',1);
 $map['name'] = 'ok';
 $map['_string'] = 'status=1 AND score>10';
