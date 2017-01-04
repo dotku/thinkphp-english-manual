@@ -400,6 +400,7 @@ Class UserModel extends \Think\Model {
 
 ## 17. Model Layers
 ## 18. View Model
+
 ```
 # File: App\Home\Model\BlogViewModel.class.php
 # Create A View Model
@@ -413,6 +414,13 @@ class BlogViewModel extends ViewModel {
    );
  }
 ```
+
+Extral function for View Model array:
+
+- `_table`, by default ThinkPHP use underscore format, if your table is using different format, you can use `_table` to specify the table name.
+- `_as`, you can create another name for a table, such as `_as` => 'B' stands for table Blog
+- `_on`, it is for condition, eg `'_on'=>'Blog.category_id=Category.id'`
+- `_type`, is for JOIN type, eg `'_type'=>'LEFT'`
 
 ## 19. Relationship Model
 ## 20. Advanced Model
