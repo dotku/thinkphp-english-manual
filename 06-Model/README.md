@@ -489,7 +489,7 @@ If you want to return a array of column you can use `getField('colName', true)`
 $User->getField('id',true); // array(1,2,3,4,5)
 ```
 
-# Delete
+### Delete
 
 ```
 $User = M("User");
