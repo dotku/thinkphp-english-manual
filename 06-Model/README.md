@@ -259,7 +259,9 @@ Under config.php file, and specify
 ```
 
 ## 7. Link Operation
-- where\*	used for condition query
+- where\*	
+
+It is used for condition query.
 
 ```
 $User = M("User"); // create User Instance Object
@@ -272,7 +274,12 @@ $map['status'] = 1;
 $User->where($map)->select(); 
 ```
 
-- table	use for table selection
+> Please notice that you should follow the capital case on the actuall table on where method; however, ThinkPHP would parse all fields to lower case after select() method.
+
+- table
+
+It is used for table selection
+
 ```
 $Model->table('think_user')->where('status>1')->select();
 ```
