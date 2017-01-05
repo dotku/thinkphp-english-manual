@@ -453,9 +453,10 @@ $Model->scope('normal')->select();
 $Model->scope('latest')->select();
 ```
 
-## 9. CRUD
+## 9. CURD
+
+### Create (Write)
 ```
-# Create (Write)
 $data['name'] = $_POST['name'];
 $data['email'] = $_POST['email'];
 
@@ -466,18 +467,31 @@ if($User->create($data)){
         $insertId = $result;
     }
 }
+```
 
-# Read
-$User = M("User");
-$data = $User->where('status=1 AND name="thinkphp"')->find();
-
-# Update
+### Update
+```
 $User = M("User"); 
 $data['name'] = 'ThinkPHP';
 $data['email'] = 'ThinkPHP@gmail.com';
 $User->where('id=5')->save($data); 
+```
+
+### Read
+```
+$User = M("User");
+$data = $User->where('status=1 AND name="thinkphp"')->find();
+```
+
+If you want to return a array of column you can use `getField('colName', true)`
+
+```
+$User->getField('id',true); // array(1,2,3,4,5)
+```
 
 # Delete
+
+```
 $User = M("User");
 $User->where('id=5')->delete();
 $User->delete('1,2,5'); 
