@@ -512,6 +512,7 @@ $User->delete();
 $User->delete(8); 
 $User->delete('5,6'); 
 ```
+*There is bug for select(1,2,3)*
 
 ## 11. Field Pointer
 You can point the field to different column in database:
