@@ -623,6 +623,7 @@ $userId = $User->getFieldByName('liu21st','id');
 ```
 $subQuery = $model->field('id,name')->table('tablename')->group('field')->where($where)->order('status')->select(false); 
 // returns SQL string
+$model->table($subQuery.' a')->where()->order()->select();
 ```
 
 ## 13. Auto Verify
