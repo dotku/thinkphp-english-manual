@@ -3,3 +3,5 @@
 Controller in ThinkPHP 5.0 is flexible. It could be used without any basic class or extend official \think\Controller class or other Controller class.
 
 (to be continue ...)
+
+> Private controller is not allow to create due to the key confilict.
