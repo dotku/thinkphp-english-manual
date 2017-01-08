@@ -4,4 +4,4 @@ Controller in ThinkPHP 5.0 is flexible. It could be used without any basic class
 
 (to be continue ...)
 
-> Private controller is not allow to create due to the key confilict.
+> Any PHP reserved keywords won't be allowed to be used as controller name, for example, Private, Public, and Array.
