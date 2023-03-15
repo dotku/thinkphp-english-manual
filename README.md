@@ -1,4 +1,4 @@
-# ThinkPHP English Manual For ThinkPHP 5.0
+# ThinkPHP English Manual
 
 ## General
 
